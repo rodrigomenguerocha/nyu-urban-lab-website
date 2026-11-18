@@ -1,0 +1,112 @@
+/* Flipbook viewer (see flipbook.js) */
+html.fb-lock{overflow:hidden}
+.fb{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(24,3,42,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;transition:opacity .26s ease;
+  /* the viewer is appended to <body>, outside #urbanlab-home where the site font is set, so name it here */
+  font-family:"NYU Perstare",Arial,sans-serif}
+.fb button{font:inherit}
+.fb.is-in{opacity:1}
+.fb-stage{flex:1;width:100%;display:flex;align-items:center;justify-content:center;perspective:2600px;min-height:0;padding-top:20px}
+.fb-book{position:relative;width:calc(var(--pw) * 2);height:var(--ph);transform:translateX(var(--shift,0));transform-style:preserve-3d}
+.fb-book.fb-singlepage{width:var(--pw);transform:none}
+.fb-one{position:absolute;inset:0;border-radius:3px;background-color:#fff;box-shadow:0 30px 70px -20px rgba(0,0,0,.55)}
+
+/* leaves: flat when at rest; a turning leaf is swapped for a bend (nested slices, see flipbook.js) */
+.fb-leaf{position:absolute;top:0;left:50%;width:var(--pw);height:var(--ph);transform-origin:left center;transform-style:preserve-3d;transform:rotateY(0deg)}
+.fb-leaf.is-flipped{transform:rotateY(-180deg)}
+.fb-face{position:absolute;inset:0;background-color:#fff;background-repeat:no-repeat;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden}
+.fb-front{border-radius:0 3px 3px 0}
+.fb-back{transform:rotateY(180deg);border-radius:3px 0 0 3px}
+.fb-face::before{content:'';position:absolute;inset:0;pointer-events:none}
+.fb-bend{position:absolute;top:0;left:50%;width:var(--pw);height:var(--ph);transform-origin:left center;transform-style:preserve-3d;pointer-events:none;will-change:transform}
+.fb-slice{position:absolute;top:0;height:100%;transform-origin:left center;transform-style:preserve-3d;transform:rotateY(var(--b,0deg))}
+.fb-bend>.fb-slice{left:0}
+.fb-sf,.fb-sb{position:absolute;inset:0;background-color:#fff;background-repeat:no-repeat;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.fb-sb{transform:rotateY(180deg)}
+.fb-sf::after,.fb-sb::after{content:'';position:absolute;inset:0;background:#000;opacity:var(--s,0);pointer-events:none}
+/* soft shadow the lifting sheet throws on the page underneath; the gradient is set every frame from the sheet's edge (flipbook.js) */
+.fb-cast{position:absolute;top:0;height:var(--ph);width:var(--pw);pointer-events:none;opacity:0}
+.fb-cast-r{left:50%}
+.fb-cast-l{left:calc(50% - var(--pw))}
+.fb-book.fb-spread::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(0,0,0,.28);transform:translateX(-1px);z-index:0}
+
+/* controls */
+.fb-x{position:absolute;top:18px;right:18px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid #ffffff59;background:#ffffff1f;cursor:pointer;padding:0;transition:background-color .2s}
+.fb-x:hover{background:#ffffff3d}
+.fb-x span{position:absolute;top:50%;left:15px;width:14px;height:1px;background:#fff}
+.fb-x span:first-child{transform:rotate(45deg)}.fb-x span:last-child{transform:rotate(-45deg)}
+.fb-bar{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px 16px 22px;color:#fff;font-size:13px;letter-spacing:.02em}
+.fb-count{min-width:150px;text-align:center;font-variant-numeric:tabular-nums}
+.fb-prev,.fb-next{width:44px;height:44px;border-radius:50%;border:1px solid #ffffff59;background:#ffffff1f;color:#fff;cursor:pointer;display:grid;place-items:center;padding:0;transition:background-color .2s,opacity .2s}
+.fb-prev:hover:not(:disabled),.fb-next:hover:not(:disabled){background:#ffffff3d}
+.fb-prev:disabled,.fb-next:disabled{opacity:.3;cursor:default}
+.fb-bar svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fb-pdf{margin-left:14px;color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.fb-pdf:hover{text-decoration:underline;text-underline-offset:5px}
+.fb button:focus-visible,.fb a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:760px){.fb-pdf{display:none}.fb-count{min-width:120px}.fb-x{top:12px;right:12px}}
+@media(prefers-reduced-motion:reduce){.fb,.fb-book{transition:none}}
+
+/* triggers */
+.bc-flip{font:inherit;font-size:13px;font-weight:600;color:#582483;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;transition:text-decoration-color .25s}
+.bc-flip:hover{text-decoration-color:currentColor}
+
+/* no hairlines between slices: they overlap, share the page colour and are not sub-pixel clipped */
+.fb-slice,.fb-sf,.fb-sb{outline:1px solid transparent;background-clip:padding-box}
+.fb-sf,.fb-sb{background-color:#f4f3f1}
+
+/* One shadow for the whole book (symmetric, under both pages) and one gutter crease over both pages. Neither belongs to a leaf,
+   so nothing pops in or out when a turning sheet lands. */
+.fb-shadow{position:absolute;top:0;height:var(--ph);left:var(--sl,25%);width:var(--sw,100%);pointer-events:none;transform:translateZ(-2px);
+  box-shadow:0 26px 60px -24px rgba(0,0,0,.55),0 4px 14px -6px rgba(0,0,0,.35);border-radius:3px}
+/* The flat crease sits just above the resting pages but BELOW a turning sheet (.fb-bend is at 2px): if it floated above the sheet,
+   the lifting sheet would slice through it and wipe it off with a hard line. The turning sheet carries its own crease instead. */
+.fb-gutter{position:absolute;top:0;height:var(--ph);width:calc(var(--pw) * .085);pointer-events:none;transform:translateZ(1px)}
+.fb-sf::before,.fb-sb::before{content:'';position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;background-size:var(--pw) 100%;background-position:var(--gx,0) 0}
+.fb-sf::before{background-image:linear-gradient(90deg,rgba(0,0,0,.2),rgba(0,0,0,0) calc(var(--pw) * .085));opacity:var(--gf,0)}
+.fb-sb::before{background-image:linear-gradient(270deg,rgba(0,0,0,.2),rgba(0,0,0,0) calc(var(--pw) * .085));opacity:var(--gb,0)}
+.fb-gutter-l{right:50%;opacity:var(--gl,1);background:linear-gradient(270deg,rgba(0,0,0,.2),rgba(0,0,0,0))}
+.fb-gutter-r{left:50%;opacity:var(--gr,1);background:linear-gradient(90deg,rgba(0,0,0,.2),rgba(0,0,0,0))}
+
+/* ---------- 3D book on a publication page (opens the flipbook) ----------
+   Plain-CSS port of the "Book" component: cover with binding shading, page block on the open side, back board, perspective.
+   Markup (publication-*.html): figure.pbook-fig > button.pbook[data-flip] > .pbook-body > .pbook-cover(img + .pbook-bind) + .pbook-pages + .pbook-back, then .pbook-cta.
+   Per book: --ar (cover width / height) and --d (thickness, from the page count). */
+#urbanlab-home .feature-row>figure.pbook-fig{margin:0;display:flex;justify-content:center;align-items:center;padding:28px 0 44px}
+.pbook{--w:min(320px,72vw);--d:14px;--ar:3/4;position:relative;display:inline-block;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;perspective:900px;-webkit-tap-highlight-color:transparent}
+.pbook::before{content:'';position:absolute;left:8%;right:4%;bottom:-18px;height:26px;border-radius:50%;background:radial-gradient(closest-side,rgba(37,6,61,.28),rgba(37,6,61,0));
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s;pointer-events:none}
+.pbook-body{position:relative;display:block;width:var(--w);aspect-ratio:var(--ar);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pbook:hover .pbook-body,.pbook:focus-visible .pbook-body{transform:rotateY(-30deg) scale(1.04) translateX(-14px)}
+.pbook:hover::before,.pbook:focus-visible::before{transform:translateX(10px) scaleX(1.06);opacity:.85}
+.pbook-cover{position:absolute;inset:0;display:block;overflow:hidden;border-radius:6px 3px 3px 6px;background:#fff;
+  box-shadow:0 1px 1px rgba(0,0,0,.04),0 6px 12px -6px rgba(0,0,0,.18),0 22px 40px -18px rgba(37,6,61,.45)}
+#urbanlab-home .feature-row>figure.pbook-fig .pbook-cover img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;background:#fff}
+.pbook-cover::after{content:'';position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(0,0,0,.08);box-shadow:inset 0 1px 2px rgba(255,255,255,.3);pointer-events:none}
+/* binding: the hinge shading near the spine (same gradients as the component's --ds-book-bind) */
+.pbook-bind{position:absolute;top:0;bottom:0;left:0;width:8.2%;mix-blend-mode:overlay;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0) 12%,rgba(255,255,255,.25) 29.25%,rgba(255,255,255,0) 50.5%,rgba(255,255,255,0) 75.25%,rgba(255,255,255,.25) 91%,rgba(255,255,255,0)),
+             linear-gradient(90deg,rgba(0,0,0,.03),rgba(0,0,0,.1) 12%,rgba(0,0,0,0) 30%,rgba(0,0,0,.02) 50%,rgba(0,0,0,.2) 73.5%,rgba(0,0,0,.5) 75.25%,rgba(0,0,0,.15) 85.25%,rgba(0,0,0,0))}
+/* page block, seen when the book turns: a strip as deep as the book, standing on the open edge */
+.pbook-pages{position:absolute;top:3px;left:0;height:calc(100% - 6px);width:var(--d);
+  background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(0,0,0,0) 35%,rgba(0,0,0,0) 75%,rgba(0,0,0,.22)),linear-gradient(rgba(0,0,0,.06),rgba(0,0,0,0) 12%,rgba(0,0,0,0) 88%,rgba(0,0,0,.1)),
+             repeating-linear-gradient(90deg,#f7f4ee 0 2px,#ddd7cc 2px 2.6px);
+  transform:translateX(calc(var(--w) - var(--d) / 2 - 3px)) rotateY(90deg) translateX(calc(var(--d) / 2))}
+.pbook-back{position:absolute;inset:0;border-radius:6px 3px 3px 6px;background:#c9c2b8;box-shadow:0 22px 40px -18px rgba(37,6,61,.45);transform:translateZ(calc(-1 * var(--d)))}
+/* "See inside" label: hidden until hover / keyboard focus; always shown on touch screens (no hover there) */
+.pbook-cta{position:absolute;left:50%;bottom:22px;display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 14px;border-radius:999px;
+  background:rgba(37,6,61,.86);color:#fff;font-size:13px;font-weight:600;letter-spacing:.02em;white-space:nowrap;pointer-events:none;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 8px 20px -8px rgba(0,0,0,.5);
+  opacity:0;transform:translate(-50%,10px);transition:opacity .3s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pbook-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pbook:hover .pbook-cta,.pbook:focus-visible .pbook-cta{opacity:1;transform:translate(-50%,0)}
+.pbook:focus-visible{outline:none}
+.pbook:focus-visible .pbook-cover{outline:2px solid #582483;outline-offset:4px}
+@media(hover:none){.pbook-cta{opacity:1;transform:translate(-50%,0)}}
+@media(prefers-reduced-motion:reduce){.pbook-body,.pbook::before,.pbook-cta{transition:none}}
+
+/* plain dark back cover for books whose last PDF page is not a cover */
+.fb-dark,.fb-face.fb-dark,.fb-sf.fb-dark,.fb-sb.fb-dark,.fb-one.fb-dark{background:#1c1126!important}
+/* phone tilt (assets/motion.js): the book rests a little turned, so its page edge shows, and follows the phone. No transition:
+   the tilt values are already eased every frame. */
+html.ul-tilt .pbook-body{transform:rotateY(calc(-24deg + var(--tilt-x, 0) * 16deg)) rotateX(calc(var(--tilt-y, 0) * 6deg));transition:none}

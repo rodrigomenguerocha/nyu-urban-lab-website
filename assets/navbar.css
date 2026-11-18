@@ -1,0 +1,134 @@
+/* NYU Urban Lab — slim, responsive navigation (replaces the old two-row header).
+   Visual language follows the shadcn / Base UI navigation-menu: compact triggers,
+   a floating popup that fades and slides between items, grouped links. */
+#urbanlab-home .ul-header.nb{
+ position:sticky;top:0;z-index:90;background:#fffffff2;border-top:0!important;
+ border-bottom:1px solid #e8e0ef;-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);
+}
+#urbanlab-home .nb-bar{
+ position:relative;display:flex;align-items:center;gap:20px;height:56px;box-sizing:border-box;
+ padding:0 var(--ul-gutter);max-width:none;
+}
+#urbanlab-home .nb-brand{display:block;flex:0 0 auto;line-height:0;text-decoration:none}
+#urbanlab-home .nb-logo{display:block;height:34px;width:auto;max-width:none}
+#urbanlab-home .nb-nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+#urbanlab-home .nb-list{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+#urbanlab-home .nb-item{position:relative}
+
+/* triggers */
+#urbanlab-home .nb-trigger,
+#urbanlab-home .nb-link{
+ display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 12px;border:0;border-radius:6px;
+ background:transparent;color:var(--ul-ink);font:inherit;font-size:14px;font-weight:500;line-height:1;
+ cursor:pointer;text-decoration:none;white-space:nowrap;transition:background-color .15s,color .15s,box-shadow .15s;
+}
+#urbanlab-home .nb-trigger:hover,#urbanlab-home .nb-link:hover{background:var(--ul-soft)}
+#urbanlab-home .nb-trigger[aria-expanded="true"]{background:var(--ul-soft);color:var(--ul-purple)}
+#urbanlab-home .nb-trigger:focus-visible,#urbanlab-home .nb-link:focus-visible,
+#urbanlab-home .nb-panel a:focus-visible,#urbanlab-home .nb-toggle:focus-visible{outline:2px solid var(--ul-purple);outline-offset:2px}
+#urbanlab-home .nb-chevron{width:12px;height:12px;flex:none;transition:transform .25s}
+#urbanlab-home .nb-trigger[aria-expanded="true"] .nb-chevron{transform:rotate(180deg)}
+#urbanlab-home .nb-cta{
+ margin-left:8px;background:var(--ul-purple);color:#fff;font-weight:600;
+}
+#urbanlab-home .nb-cta:hover{background:var(--ul-ink);color:#fff}
+
+/* popup panels */
+#urbanlab-home .nb-panel{
+ position:absolute;top:calc(100% + 10px);left:50%;z-index:100;box-sizing:border-box;
+ width:max-content;max-width:min(92vw,640px);padding:10px;background:#fff;border-radius:10px;
+ box-shadow:0 12px 36px #25063d26,0 0 0 1px #e8e0ef;
+ opacity:0;visibility:hidden;pointer-events:none;
+ transform:translate(-50%,6px) scale(.97);transform-origin:top center;
+ transition:opacity .2s,transform .3s cubic-bezier(.22,1,.36,1),visibility 0s linear .3s;
+}
+#urbanlab-home .nb-panel::before{content:'';position:absolute;left:0;right:0;top:-12px;height:12px}
+#urbanlab-home .nb-panel.is-open{
+ opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0) scale(1);
+ transition:opacity .2s,transform .3s cubic-bezier(.22,1,.36,1),visibility 0s;
+}
+#urbanlab-home .nb-item:last-of-type .nb-panel{left:auto;right:0;transform:translate(0,6px) scale(.97);transform-origin:top right}
+#urbanlab-home .nb-item:last-of-type .nb-panel.is-open{transform:translate(0,0) scale(1)}
+#urbanlab-home .nb-cols{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,1fr);gap:6px}
+#urbanlab-home .nb-group{min-width:0}
+#urbanlab-home .nb-group h3{
+ margin:0;padding:8px 10px 4px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ul-purple);
+}
+#urbanlab-home .nb-panel a{
+ display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:6px;color:var(--ul-ink);
+ font-size:14px;line-height:1.3;text-decoration:none;transition:background-color .15s;
+}
+#urbanlab-home .nb-panel a:hover{background:var(--ul-soft)}
+#urbanlab-home .nb-panel a strong{font-weight:600}
+#urbanlab-home .nb-panel a span{font-size:12.5px;line-height:1.35;color:#5d4c70}
+#urbanlab-home .nb-panel a.nb-all{color:var(--ul-purple);font-weight:600}
+
+/* mobile toggle */
+#urbanlab-home .nb-toggle{
+ display:none;margin-left:auto;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid #d8cde8;border-radius:6px;
+ background:#fff;color:var(--ul-ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer;
+}
+#urbanlab-home .nb-toggle svg{width:16px;height:16px}
+#urbanlab-home .nb-toggle .nb-x{display:none}
+#urbanlab-home .nb-toggle[aria-expanded="true"] .nb-x{display:block}
+#urbanlab-home .nb-toggle[aria-expanded="true"] .nb-burger{display:none}
+
+@media(max-width:960px){
+ #urbanlab-home .nb-bar{height:52px}
+ #urbanlab-home .nb-logo{height:30px}
+ #urbanlab-home .nb-toggle{display:inline-flex}
+ #urbanlab-home .nb-nav{
+  display:none;position:absolute;top:100%;left:0;right:0;margin:0;flex-direction:column;align-items:stretch;gap:0;
+  max-height:calc(100dvh - 58px);overflow:auto;padding:6px var(--ul-gutter) 18px;background:#fff;
+  border-bottom:1px solid #d8cde8;box-shadow:0 18px 30px #25063d29;
+ }
+ #urbanlab-home .nb-nav.is-open{display:flex}
+ #urbanlab-home .nb-list{flex-direction:column;align-items:stretch;gap:0}
+ #urbanlab-home .nb-item{border-bottom:1px solid #eee7f4}
+ #urbanlab-home .nb-trigger,#urbanlab-home .nb-link{width:100%;height:48px;padding:0 4px;justify-content:space-between;border-radius:0;font-size:16px}
+ #urbanlab-home .nb-trigger:hover,#urbanlab-home .nb-trigger[aria-expanded="true"]{background:transparent}
+ #urbanlab-home .nb-panel,
+ #urbanlab-home .nb-item:last-of-type .nb-panel{
+  position:static;display:none;width:auto;max-width:none;padding:0 0 10px;border-radius:0;box-shadow:none;
+  opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:none;
+ }
+ #urbanlab-home .nb-panel::before{display:none}
+ #urbanlab-home .nb-panel.is-open,
+ #urbanlab-home .nb-item:last-of-type .nb-panel.is-open{display:block;transform:none}
+ #urbanlab-home .nb-cols{display:block}
+ #urbanlab-home .nb-panel a{padding:10px 4px;font-size:15px;min-height:44px;box-sizing:border-box;justify-content:center}
+ #urbanlab-home .nb-cta{margin:14px 0 0;justify-content:center;height:46px;border-radius:6px;width:100%}
+}
+@media(max-width:650px){#urbanlab-home .nb-bar{padding:0 16px}#urbanlab-home .nb-nav{padding-left:16px;padding-right:16px}}
+@media(prefers-reduced-motion:reduce){
+ #urbanlab-home .nb-panel,#urbanlab-home .nb-panel.is-open,#urbanlab-home .nb-chevron{transition:none}
+}
+@media print{#urbanlab-home .ul-header.nb{position:static}#urbanlab-home .nb-nav,#urbanlab-home .nb-toggle{display:none}}
+
+/* ===== Site-wide side margins =====
+   Full-bleed colored blocks (hero slideshow, dark/lilac bands, chapter bar) are inset to the same
+   margin as the text and the menu, with rounded corners. Text sections already sit inside the margin. */
+#urbanlab-home{--nb-margin:max(var(--ul-gutter),calc((100% - var(--ul-content,1320px))/2));--nb-inset:clamp(22px,4vw,56px);--nb-radius:16px}
+#urbanlab-home :is(.city-manifesto,.latest-publication,.ul-involve,.culture-hero,.culture-cases,.chapter-nav){
+ box-sizing:border-box;margin-left:var(--nb-margin);margin-right:var(--nb-margin);border-radius:var(--nb-radius);
+}
+/* inner padding follows the new, smaller inset so content is not pushed in twice */
+#urbanlab-home :is(.city-manifesto,.latest-publication,.ul-involve,.culture-hero,.culture-cases){padding-left:var(--nb-inset);padding-right:var(--nb-inset)}
+#urbanlab-home .chapter-nav{padding-left:var(--nb-inset);padding-right:var(--nb-inset);border-radius:12px}
+/* page title band on inner pages: the hairline now stops at the margins */
+#urbanlab-home .site-title{margin-left:var(--nb-margin);margin-right:var(--nb-margin);padding-left:0;padding-right:0}
+@media(max-width:650px){#urbanlab-home{--nb-margin:16px;--nb-radius:12px}}
+
+/* Hero slideshow: every photo fills the whole background (no letterboxing / blurred side bars). */
+#urbanlab-home .cinema .cinema-slide .cinema-focus,
+#urbanlab-home .cinema .cinema-slide[data-fit] .cinema-focus{object-fit:cover!important;padding:0!important}
+#urbanlab-home .cinema .cinema-fill{display:none}
+
+/* Hero is full-bleed (edge to edge), not a card. */
+#urbanlab-home .cinema{margin-left:0;margin-right:0;margin-top:0;border-radius:0}
+#urbanlab-home #main:has(> .cinema-opening){padding-top:0}
+
+/* Home: the hero photo starts at the very top of the page, behind the (glassy) header. */
+#urbanlab-home:has(.cinema-opening) .ul-header.nb{
+ margin-bottom:calc(-1 * var(--header-height,57px));background:#ffffffc7;border-bottom-color:#ffffff59;
+}

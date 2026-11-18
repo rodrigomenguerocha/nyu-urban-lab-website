@@ -1,0 +1,1 @@
+{"name":"nyu-urban-lab-build","private":true,"description":"Build tools only. Not part of the published site.","devDependencies":{"esbuild":"^0.28.0","sharp":"^0.35.5"}}

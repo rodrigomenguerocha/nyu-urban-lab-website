@@ -1,0 +1,10 @@
+/* Background-only variant; existing foreground, geometry, content and controls remain unchanged. */
+#urbanlab-home{background-color:#fff;background-image:url("background-illustration.svg");background-size:1600px 1100px;background-position:center 150px;background-repeat:repeat-y;background-attachment:fixed}
+#urbanlab-home .urban-story,#urbanlab-home .site-title{background:transparent}
+#urbanlab-home .city-manifesto,#urbanlab-home .culture-hero,#urbanlab-home .culture-cases{background-color:rgba(243,239,248,.86)}
+#urbanlab-home .content{background-color:rgba(255,255,255,.82)}
+#urbanlab-home .site-card,#urbanlab-home .ul-research-item{background-color:rgba(255,255,255,.82)}
+#urbanlab-home .city-panel{background:linear-gradient(135deg,var(--story-mid),var(--story-dark) 45%,var(--story-ink))}
+@media(max-width:700px){#urbanlab-home{background-size:900px 619px;background-position:55% 145px;background-attachment:scroll}#urbanlab-home .story-visual{background:transparent}}
+@media(prefers-reduced-motion:reduce){#urbanlab-home{background-attachment:scroll}}
+@media print{#urbanlab-home{background-image:none}}

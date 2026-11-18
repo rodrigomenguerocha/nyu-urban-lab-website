@@ -1,0 +1,15 @@
+NYU URBAN LAB — Cinematic Opening, four photos and balanced logo (16 November 2026)
+
+Only these four enhanced photographs appear in the Cinematic Opening homepage slideshow, in order:
+1. ULI San Antonio Conference — from 01_ULI_San_Antonio_Conference_4x.jpg
+2. NYU Schack Speaker — from 02_NYU_Schack_Speaker_4x.jpg
+3. Speaker with Blue Backdrop — from 03_Speaker_Blue_Backdrop_4x.png
+4. Conference Keynote — from 04_Conference_Keynote_Speaker_4x.jpg
+
+The three other cinematic images and their source files were removed. The alternate cinematic samples have been synchronized. The slide counter reads 01 / 04 and updates automatically, with no manual photo controls.
+
+The NYU Urban Lab logo now has equal top and bottom masthead padding: 24px (desktop), 18px (tablet), 16px (mobile). Logo and navigation remain on one row on desktop. No logo artwork changed.
+
+The existing WebP files are higher-resolution exports of the user-supplied enhanced photographs. As with all image upscaling, extra pixels cannot restore details unavailable in the originals.
+
+DEPLOYMENT: Extract contents directly into Hostinger public_html (after making a backup), or compare to the previous release and copy only updated files. Previous copies of unused image assets on a server may remain until separately cleaned. Check index.html in a browser after deployment. Do not overwrite a production NYU website without the responsible administrator's approval.

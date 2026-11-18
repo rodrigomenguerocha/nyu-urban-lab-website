@@ -1,0 +1,58 @@
+/* Cinematic homepage samples. Existing map layer and particle city remain untouched. */
+#urbanlab-home .cinema{position:relative;background:#120a1b;color:#fff;isolation:isolate;min-width:0;margin:0;overflow:hidden}
+#urbanlab-home .cinema-stage{position:relative;height:clamp(560px,calc(100svh - var(--header-height,150px)),830px)}
+#urbanlab-home .cinema-slides{position:absolute;inset:0;overflow:hidden;background:#120a1b}
+#urbanlab-home .cinema-slide{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.35s ease;pointer-events:none;overflow:hidden}
+#urbanlab-home .cinema-slide:first-child,#urbanlab-home .cinema-slide.is-active{opacity:1}
+#urbanlab-home .cinema.is-ready .cinema-slide:not(.is-active){opacity:0}
+#urbanlab-home .cinema-fill{position:absolute;inset:-7%;width:114%;height:114%;max-width:none;object-fit:cover;filter:blur(24px) brightness(.48);transform:scale(1.02)}
+#urbanlab-home .cinema-focus{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--focal,50% 35%)}
+#urbanlab-home .cinema-slide[data-fit="contain"] .cinema-focus{object-fit:contain;padding:18px 30px 76px}
+#urbanlab-home .cinema-slide.is-active .cinema-fill{animation:cinema-breathe 9s ease-out both}
+#urbanlab-home .cinema[data-rest="true"] .cinema-fill{animation-play-state:paused}
+#urbanlab-home .cinema-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(13,4,23,.04) 30%,rgba(16,5,28,.12) 49%,rgba(19,5,31,.84) 76%,#1a082b 100%)}
+#urbanlab-home .cinema-copy{position:absolute;z-index:2;left:var(--ul-gutter);right:var(--ul-gutter);bottom:96px;max-width:940px;pointer-events:none}
+#urbanlab-home .cinema-copy .ul-kicker{color:#f0e5fc;font-size:10px;letter-spacing:.14em;line-height:1.7;margin-bottom:14px}
+#urbanlab-home .cinema-copy h2{color:#fff;font-size:clamp(38px,4.5vw,68px);font-weight:400;letter-spacing:-.045em;line-height:1.05;max-width:20ch;margin:0 0 18px;text-shadow:0 1px 20px #10021e55}
+#urbanlab-home .cinema-copy p{color:#f2eaf9;font-size:16px;line-height:1.6;max-width:54ch}
+#urbanlab-home .cinema-controls{position:absolute;z-index:3;bottom:0;left:var(--ul-gutter);right:var(--ul-gutter);min-height:76px;border-top:1px solid #ffffff45;display:flex;align-items:center;justify-content:space-between;gap:25px;padding:14px 0}
+#urbanlab-home .cinema-caption{font-size:11px;line-height:1.5;color:#f0e5fc;letter-spacing:.02em;max-width:38ch}
+#urbanlab-home .cinema-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#urbanlab-home .cinema-controls a{color:white;font-size:12px;text-underline-offset:5px;text-decoration:underline;white-space:nowrap}
+#urbanlab-home .cinema-meta{display:flex;gap:14px;align-items:center;color:#efe1fb;font-size:10px}
+#urbanlab-home .cinema-counter{white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.1em}
+#urbanlab-home .cinema-chapter{margin:25px 0 65px}
+#urbanlab-home .cinema-chapter .cinema-stage{height:560px}
+#urbanlab-home .cinema-chapter .cinema-copy h2{font-size:clamp(34px,4vw,58px);max-width:27ch}
+#urbanlab-home .cinema-chapter .cinema-copy{bottom:86px}
+#urbanlab-home .cinema-strip .cinema-slides{display:flex;gap:20px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;padding:0 12vw}
+#urbanlab-home .cinema-strip .cinema-slides::-webkit-scrollbar{display:none}
+#urbanlab-home .cinema-strip .cinema-slide{position:relative;inset:auto;opacity:1!important;flex:0 0 76vw;max-width:1100px;height:100%;scroll-snap-align:center;scroll-snap-stop:always}
+#urbanlab-home .cinema-strip .cinema-shade{background:linear-gradient(180deg,#10061b00 25%,#14071f22 50%,#190729dd 78%,#1a082b 100%)}
+#urbanlab-home .cinema-strip .cinema-stage{height:clamp(560px,calc(100svh - var(--header-height,150px)),770px)}
+@keyframes cinema-breathe{from{transform:scale(1.02)}to{transform:scale(1.09)}}
+@media(max-width:760px){
+ #urbanlab-home .cinema-stage,#urbanlab-home .cinema-strip .cinema-stage{height:640px;min-height:0}
+ #urbanlab-home .cinema-focus{object-fit:contain!important;padding:12px 0 190px!important}
+ #urbanlab-home .cinema-shade{background:linear-gradient(180deg,#16091d11 23%,#19072900 45%,#190729dd 67%,#1a082b 100%)}
+ #urbanlab-home .cinema-copy{bottom:140px;left:24px;right:24px}
+ #urbanlab-home .cinema-copy h2{font-size:42px;max-width:16ch;margin-bottom:12px}
+ #urbanlab-home .cinema-copy p{font-size:14px;line-height:1.55}
+ #urbanlab-home .cinema-controls{left:24px;right:24px;min-height:116px;align-items:flex-start;flex-direction:column;gap:10px;padding:14px 0}
+ #urbanlab-home .cinema-caption{font-size:10px;max-width:none}
+ #urbanlab-home .cinema-buttons{gap:8px;width:100%;justify-content:flex-start}
+ #urbanlab-home .cinema-controls a{margin-left:auto;font-size:11px}
+ #urbanlab-home .cinema-chapter .cinema-stage{height:590px}
+ #urbanlab-home .cinema-chapter .cinema-copy{bottom:140px}
+ #urbanlab-home .cinema-chapter .cinema-copy h2{font-size:34px}
+ #urbanlab-home .cinema-chapter{margin:0 0 42px}
+ #urbanlab-home .cinema-strip .cinema-slide{flex-basis:88vw;max-width:none}
+ #urbanlab-home .cinema-strip .cinema-slides{padding:0 6vw;gap:12px}
+}
+@media(prefers-reduced-motion:reduce){#urbanlab-home .cinema-slide{transition:none}#urbanlab-home .cinema-fill{animation:none!important}}
+@media print{#urbanlab-home .cinema-stage{height:430px}#urbanlab-home .cinema-controls{display:none}#urbanlab-home .cinema-copy{bottom:30px}#urbanlab-home .cinema-slide{display:none}#urbanlab-home .cinema-slide.is-active,#urbanlab-home .cinema-slide:first-child{display:block}#urbanlab-home .cinema-fill{filter:none;animation:none}}
+/* Keep the entire photograph visible near the top of narrow screens rather than
+   letterboxing a large empty strip above the opening image. */
+@media(max-width:760px){
+ #urbanlab-home .cinema-opening .cinema-focus{object-position:center top!important}
+}
