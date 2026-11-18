@@ -2,6 +2,9 @@
 
 Redesigned version of the NYU Urban Lab site. Static HTML, CSS and vanilla JS; no framework.
 
+## Live copy
+Published with GitHub Pages: https://rodrigomenguerocha.github.io/nyu-urban-lab-website/ (every push to `main` republishes it in about a minute). Source: https://github.com/rodrigomenguerocha/nyu-urban-lab-website. All pages are `noindex`.
+
 ## Run it locally
 ```bash
 python3 -m http.server 8766
