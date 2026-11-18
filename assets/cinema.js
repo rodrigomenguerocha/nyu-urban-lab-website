@@ -3,8 +3,12 @@
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   document.querySelectorAll('.cinema').forEach(section => {
-    const slides = [...section.querySelectorAll('.cinema-slide')];
-    if (!slides.length) return;
+    const all = [...section.querySelectorAll('.cinema-slide')];
+    if (!all.length) return;
+    // slides marked data-only="desktop" / "mobile" belong to one screen size; the count, the bar and the loop only see the ones in use
+    const phone = window.matchMedia('(max-width:760px)');
+    const wanted = s => !s.dataset.only || (s.dataset.only === 'mobile') === phone.matches;
+    let slides = all.filter(wanted);
     const rail = section.querySelector('.cinema-slides');
     const strip = section.classList.contains('cinema-strip');
     const caption = section.querySelector('.cinema-caption');
@@ -14,13 +18,17 @@
     const mustRest = () => reduced.matches || !visible || document.hidden || paused;   // the mouse over the hero does not pause it
 
     /* ---- controls ---- */
-    const ui = document.createElement('div');
-    ui.className = 'cinema-ui';
-    ui.innerHTML = '<div class="cinema-dots" role="group" aria-label="Choose photo">' + slides.map((_, i) => `<button type="button" aria-label="Photo ${i + 1} of ${slides.length}"></button>`).join('') + '</div>';
-    const bar = ui.querySelector('.cinema-dots'), controls = section.querySelector('.cinema-controls');
-    if (bar && controls) { bar.classList.add('cinema-bar'); controls.prepend(bar); }
-    const dots = [...(bar ? bar.querySelectorAll('button') : [])];
-    dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+    const controls = section.querySelector('.cinema-controls');
+    let bar = null, dots = [];
+    function buildDots() {
+      if (bar) bar.remove();
+      bar = document.createElement('div'); bar.className = 'cinema-dots cinema-bar'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Choose photo');
+      bar.innerHTML = slides.map((_, i) => `<button type="button" aria-label="Photo ${i + 1} of ${slides.length}"></button>`).join('');
+      if (controls) controls.prepend(bar);
+      dots = [...bar.querySelectorAll('button')];
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+    }
+    buildDots();
     section.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') show(index - 1);
       if (e.key === 'ArrowRight') show(index + 1);
@@ -66,6 +74,7 @@
     observer.observe(section);
     document.addEventListener('visibilitychange', schedule);
     reduced.addEventListener('change', schedule);
+    phone.addEventListener('change', () => { slides = all.filter(wanted); all.forEach(s => s.classList.remove('is-active')); buildDots(); show(0); });
     section.classList.add('is-ready');
     show(0);
   });

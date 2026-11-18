@@ -950,3 +950,7 @@
   #urbanlab-home .ul-header.nb:not(.nb-top),#urbanlab-home:has(.cinema-opening) .ul-header.nb:not(.nb-top){
     background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid #ece6f3}
 }
+
+/* hero slides that belong to one screen size only (see cinema.js) */
+@media(max-width:760px){#urbanlab-home .cinema-slide[data-only="desktop"]{display:none!important}}
+@media(min-width:761px){#urbanlab-home .cinema-slide[data-only="mobile"]{display:none!important}}
