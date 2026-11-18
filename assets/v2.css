@@ -938,3 +938,8 @@
 /* iPhone: keep the footer text clear of the home indicator now that the page can extend under it (viewport-fit=cover) */
 #urbanlab-home .ul-footer.v2f{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
 @media(max-width:600px){#urbanlab-home .ul-footer.v2f{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}}
+
+/* TEMPORARY diagnostics (see v2.js) */
+.dbg-no-pin #urbanlab-home .story-visual,.dbg-no-pin #urbanlab-home .story-step{position:relative!important;top:auto!important}
+.dbg-no-filter #urbanlab-home .story-step[data-story]{transform:none!important;filter:none!important}
+.dbg-no-canvas #urbanlab-home .urban-story canvas{display:none!important}

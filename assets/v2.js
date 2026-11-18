@@ -174,3 +174,9 @@
   io.observe(s);
   setTimeout(() => s.classList.add('is-in'), 4000);   // safety net
 })();
+
+/* TEMPORARY diagnostics for the iPhone toolbar issue: add ?fx=0, ?pin=0, ?filter=0 or ?canvas=0 to the URL (combine with &) to switch one thing off */
+(() => {
+  const q = new URLSearchParams(location.search);
+  ['fx', 'pin', 'filter', 'canvas'].forEach(k => { if (q.get(k) === '0') document.documentElement.classList.add('dbg-no-' + k); });
+})();

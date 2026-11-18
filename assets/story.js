@@ -154,7 +154,7 @@
  const count=6200;
  const targets=scenes.map(points=>{points.sort((p,q)=>p[2]-q[2]||p[0]-q[0]||p[1]-q[1]);return Array.from({length:count},(_,i)=>points[Math.floor(i*points.length/count)]);});
  const phases=Array.from({length:count},()=>random()*Math.PI*2);
- let paused=reduced.matches,desired=0,position=0,raf=0,last=0,time=0,active=-1,visible=true,pointer=0,ptx=0,pty=0,ptrX=0,ptrY=0,tiltOn=false,mxT=-9999,myT=-9999,mx=-9999,my=-9999,inf=0,hovering=false;
+ let paused=reduced.matches||document.documentElement.classList.contains('dbg-no-fx'),desired=0,position=0,raf=0,last=0,time=0,active=-1,visible=true,pointer=0,ptx=0,pty=0,ptrX=0,ptrY=0,tiltOn=false,mxT=-9999,myT=-9999,mx=-9999,my=-9999,inf=0,hovering=false;
  const contexts=new Map();
  function init(c){const ctx=c.getContext('2d');if(!ctx)return null;const state={c,ctx,w:0,h:0,visible:false,arrival:0};contexts.set(c,state);return state;}
  const main=init(canvas);if(!main)return;canvas.dataset.ready='true';
