@@ -101,7 +101,7 @@ for f in pages:
     if not vp.search(s): continue
     s = vp.sub('<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>', s, 1)
     s = re.sub(r'<meta name="theme-color"[^>]*>|<meta name="apple-mobile-web-app-[^>]*>|<meta name="mobile-web-app-capable"[^>]*>|<link rel="manifest"[^>]*>', '', s)
-    color = '#25063d' if f == 'index.html' else '#ffffff'      # the home opens on the dark purple hero; inner pages are white
+    color = '#ffffff'      # phones get an opaque white header on every page, so Safari's bars (white) match
     tags = (f'<meta name="theme-color" content="{color}"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
             '<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Urban Lab"><link rel="manifest" href="manifest.webmanifest">')
     s = s.replace('<title>', tags + '<title>', 1)
