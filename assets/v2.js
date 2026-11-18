@@ -50,7 +50,7 @@
     if (loading) return;
     loading = true;
     const s = document.createElement('script');
-    s.src = 'assets/search-index.js?v=19a63043';
+    s.src = 'assets/search-index.js?v=fb68b274';
     s.onload = () => { data = window.__SEARCH_INDEX || []; cb(); };
     s.onerror = () => { loading = false; list.innerHTML = '<li class="sx-empty">Search is unavailable right now.</li>'; };
     document.head.appendChild(s);

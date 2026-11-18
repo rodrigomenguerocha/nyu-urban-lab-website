@@ -15,7 +15,7 @@
     #urbanlab-home .ul-wrap{padding:0 40px}
     #urbanlab-home .ul-kicker{font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ul-purple)}
     #urbanlab-home .ul-link{display:inline-flex;gap:16px;align-items:center;font-weight:600;color:var(--ul-purple);margin-top:20px}
-    #urbanlab-home .ul-link::after{content:'↗';font-size:20px}
+    #urbanlab-home .ul-link::after{content:'↗︎';font-size:20px}
     #urbanlab-home .ul-header{position:relative;z-index:10;background:var(--ul-paper);border-top:5px solid var(--ul-purple)}
     #urbanlab-home .ul-masthead{padding:17px 40px 12px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     #urbanlab-home .ul-logo{width:310px;height:94px;object-fit:contain}

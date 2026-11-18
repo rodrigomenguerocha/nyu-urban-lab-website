@@ -284,7 +284,7 @@
   transition:text-decoration-color .25s ease;
  }
  #urbanlab-home .story-step:not(.story-opening) .ul-link::after{
-  content:'↗';display:inline-block;margin-left:10px;font-size:18px;line-height:1;vertical-align:-1px;
+  content:'↗︎';display:inline-block;margin-left:10px;font-size:18px;line-height:1;vertical-align:-1px;
   transition:transform .3s cubic-bezier(.22,1,.36,1);
  }
  #urbanlab-home .story-step:not(.story-opening) .ul-link:hover,
@@ -931,3 +931,6 @@
 .ul-tilt-x{width:36px;height:36px;border-radius:50%;font-size:20px!important;line-height:1;opacity:.75}
 .ul-tilt-x:hover{opacity:1}
 @keyframes ul-wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+
+/* arrows (↗ …) must never turn into colour emoji on iOS Safari: U+FE0E in the text, and this as a second line of defence */
+#urbanlab-home,.fb,.bc-scrim{font-variant-emoji:text}

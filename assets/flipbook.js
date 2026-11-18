@@ -59,7 +59,7 @@
         '<button type="button" class="fb-prev" aria-label="Previous page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>' +
         '<span class="fb-count" aria-live="polite"></span>' +
         '<button type="button" class="fb-next" aria-label="Next page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>' +
-        (D.pdf ? `<a class="fb-pdf" href="${D.pdf}" target="_blank" rel="noopener">Open PDF <span aria-hidden="true">↗</span></a>` : '') +
+        (D.pdf ? `<a class="fb-pdf" href="${D.pdf}" target="_blank" rel="noopener">Open PDF <span aria-hidden="true">↗︎</span></a>` : '') +
       '</div>';
     document.body.appendChild(root);
     document.documentElement.classList.add('fb-lock');
