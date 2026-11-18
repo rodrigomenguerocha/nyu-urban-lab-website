@@ -272,7 +272,13 @@
       if (s.opened !== -1) location.href = books[s.opened].href; else toggle(Math.round(s.target));
     } else if (e.key === 'Escape' && s.opened !== -1) { e.stopPropagation(); close(); }
   });
+  // On phones the centred book skips the "open the cover" animation and goes straight to the full flipbook
+  // (a book at the side still just slides to the centre first). Desktop keeps the animation.
+  const phone = matchMedia('(hover: none), (max-width: 760px)');
   function toggle(i) {
+    if (Math.round(s.current) === i && s.opened === -1 && phone.matches && fb(books[i]) && window.__flipbook) {
+      window.__flipbook.open(books[i].href, wrappers[i]); return;
+    }
     if (Math.round(s.current) === i) {
       s.opened = s.opened === i ? -1 : i;
       root.classList.toggle('is-reading', s.opened !== -1);
