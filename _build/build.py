@@ -93,6 +93,20 @@ for f in pages:
     s = s.replace('</head>', tail + '</head>', 1)
     open(f, 'w', encoding='utf-8').write(s)
 
+# 3b. phone browser chrome: viewport-fit=cover (page may use the full screen, safe-area padding keeps content clear of the notch / home bar),
+#     theme-color (tints Safari's bars), and standalone web-app tags (added to the Home Screen the site opens with no browser bars at all)
+for f in pages:
+    s = open(f, encoding='utf-8').read()
+    vp = re.compile(r'<meta\s+(?:content="[^"]*"\s+name="viewport"|name="viewport"\s+content="[^"]*")\s*/?>')
+    if not vp.search(s): continue
+    s = vp.sub('<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>', s, 1)
+    s = re.sub(r'<meta name="theme-color"[^>]*>|<meta name="apple-mobile-web-app-[^>]*>|<meta name="mobile-web-app-capable"[^>]*>|<link rel="manifest"[^>]*>', '', s)
+    color = '#25063d' if f == 'index.html' else '#ffffff'      # the home opens on the dark purple hero; inner pages are white
+    tags = (f'<meta name="theme-color" content="{color}"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
+            '<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Urban Lab"><link rel="manifest" href="manifest.webmanifest">')
+    s = s.replace('<title>', tags + '<title>', 1)
+    open(f, 'w', encoding='utf-8').write(s)
+
 # the search box and the shelf load their data lazily; keep their URLs hashed too
 for js in ['v2.js']:
     p = os.path.join('assets', js); t = open(p, encoding='utf-8').read()

@@ -201,8 +201,16 @@
       const o = s.open[i], riseP = Math.min(1, o * 2), swingP = Math.max(0, (o - 0.5) * 2);
       const eR = smoothstep(riseP), eS = smoothstep(swingP);
       x += eS * (OPEN_W / 2); z += eR * 150; y -= eR * root.clientHeight * 0.2;   // lifts up, over the section heading (the frame no longer clips it)
-      el.style.zIndex = String(Math.round(100 - Math.abs(diff) * 10));
+      // Stacking order in half-book steps: the same order as before, but it only changes a few times while the shelf slides
+      // (a z-index that changed on every frame for every book made Safari re-sort and repaint the 3D scene each frame).
+      const zi = String(100 - Math.round(Math.abs(diff) * 2) * 5);
+      if (el.style.zIndex !== zi) el.style.zIndex = zi;
       el.style.transform = `translateX(${x}px) translateY(${y}px) translateZ(${z}px) scale(${scale}) rotateZ(${rotZ}deg)`;
+      // A book resting on the shelf (spine out, closed) looks the same on every frame: write its inner parts once, then
+      // leave them alone; only its position above changes as the shelf slides.
+      const resting = eo === 0 && o === 0;
+      if (resting && parts[i].rested) { el.classList.toggle('is-open', false); el.classList.toggle('is-active', i === ai); return; }
+      parts[i].rested = resting;
       parts[i].book.style.transform = `rotateY(${rotateY}deg)`;
       // contact shadow: sits under the book's real footprint at this angle (cover edge-on = the spine's width), and fades as the book turns to show its spine
       const th = rotateY * Math.PI / 180, cs = Math.cos(th), sn = Math.sin(th), fw = OPEN_W * cs + spineW[i] * sn, gr = parts[i].ground;

@@ -934,3 +934,7 @@
 
 /* arrows (↗ …) must never turn into colour emoji on iOS Safari: U+FE0E in the text, and this as a second line of defence */
 #urbanlab-home,.fb,.bc-scrim{font-variant-emoji:text}
+
+/* iPhone: keep the footer text clear of the home indicator now that the page can extend under it (viewport-fit=cover) */
+#urbanlab-home .ul-footer.v2f{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+@media(max-width:600px){#urbanlab-home .ul-footer.v2f{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}}

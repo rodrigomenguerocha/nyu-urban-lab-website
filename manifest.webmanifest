@@ -1,0 +1,11 @@
+{
+  "name": "NYU Urban Lab",
+  "short_name": "Urban Lab",
+  "description": "Research and learning for better cities.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#25063d",
+  "icons": [{"src": "assets/icon-180.png", "sizes": "180x180", "type": "image/png"}]
+}

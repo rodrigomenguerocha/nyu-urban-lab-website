@@ -3,7 +3,7 @@
  position:relative;margin:22px var(--nb-margin,24px) 8px;height:clamp(580px,84svh,720px);box-sizing:border-box;
  border-radius:var(--nb-radius,16px);border:1px solid var(--v2-line,#e4dcee);overflow:hidden;
  background:radial-gradient(90% 70% at 50% 0,#fff,transparent 70%),var(--v2-light,#f3eff8);
- cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:0;
+ cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;outline:0;
 }
 #urbanlab-home .bc.is-dragging{cursor:grabbing}
 #urbanlab-home .bc:focus-visible{box-shadow:0 0 0 3px #582483}
