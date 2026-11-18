@@ -24,6 +24,8 @@ def header_for(page):
     h = HEADER
     # mark the current page in the menu (panels and the Contact button)
     h = re.sub(r'(<a (?:class="[^"]*" )?href="%s")' % re.escape(page), r'\1 aria-current="page"', h)
+    if page == 'index.html':
+        h = h.replace('<header class="ul-header nb">', '<header class="ul-header nb nb-top">', 1)   # the home opens over the hero: start transparent, no white flash before v2.js runs
     return h
 
 # 0. data files read by the home page and the search box
@@ -101,7 +103,7 @@ for f in pages:
     if not vp.search(s): continue
     s = vp.sub('<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>', s, 1)
     s = re.sub(r'<meta name="theme-color"[^>]*>|<meta name="apple-mobile-web-app-[^>]*>|<meta name="mobile-web-app-capable"[^>]*>|<link rel="manifest"[^>]*>', '', s)
-    color = '#ffffff'      # phones get an opaque white header on every page, so Safari's bars (white) match
+    color = '#25063d' if f == 'index.html' else '#ffffff'      # the home opens on the dark hero (v2.js switches it to white when the header turns white); inner pages are white
     tags = (f'<meta name="theme-color" content="{color}"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
             '<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Urban Lab"><link rel="manifest" href="manifest.webmanifest">')
     s = s.replace('<title>', tags + '<title>', 1)

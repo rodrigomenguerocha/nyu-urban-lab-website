@@ -944,15 +944,9 @@
 .dbg-no-filter #urbanlab-home .story-step[data-story]{transform:none!important;filter:none!important}
 .dbg-no-canvas #urbanlab-home .urban-story canvas{display:none!important}
 
-/* Phones: an opaque white header on every page, including over the home hero (Safari's own bars are white, so the two read as one).
-   The hero starts below the header instead of running underneath it. */
+/* Phones: once the header leaves the hero (where it used to be glass) it is opaque white, to match Safari's white bars.
+   Over the hero it stays transparent with white text, as on desktop. */
 @media(max-width:760px){
-  #urbanlab-home .ul-header.nb,#urbanlab-home:has(.cinema-opening) .ul-header.nb,#urbanlab-home .ul-header.nb.nb-top{
-    background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid #ece6f3;margin-bottom:0}
-  #urbanlab-home .ul-header.nb.nb-top .nb-logo-color{display:block;filter:none}
-  #urbanlab-home .ul-header.nb.nb-top .nb-logo-mono{display:none}
-  #urbanlab-home .ul-header.nb.nb-top .nb-search,
-  #urbanlab-home .ul-header.nb.nb-top:not(:has(.nb-nav.is-open)) .nb-toggle,
-  #urbanlab-home .ul-header.nb.nb-top .nb-toggle{color:var(--ul-ink,#25063d)}
-  #urbanlab-home .cinema-opening .cinema-stage{height:max(520px,calc(100svh - var(--header-height,53px)))}
+  #urbanlab-home .ul-header.nb:not(.nb-top),#urbanlab-home:has(.cinema-opening) .ul-header.nb:not(.nb-top){
+    background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid #ece6f3}
 }

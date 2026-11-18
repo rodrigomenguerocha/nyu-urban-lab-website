@@ -7,7 +7,7 @@
 
   /* 1. header is transparent only while the home hero is at the top */
   if (root.querySelector('.cinema-opening')) {
-    const update = () => header.classList.toggle('nb-top', window.scrollY < 40);
+    const update = () => { const top = window.scrollY < 40; header.classList.toggle('nb-top', top); const tc = document.querySelector('meta[name="theme-color"]'); if (tc && document.querySelector('.cinema-opening')) tc.setAttribute('content', top ? '#25063d' : '#ffffff'); }
     update();
     window.addEventListener('scroll', update, {passive: true});
   }
