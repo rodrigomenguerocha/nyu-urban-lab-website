@@ -253,8 +253,8 @@
   // Speeds, in books per pixel. A trackpad swipe sends dozens of wheel events, so the wheel moves in proportion to how far
   // the fingers travel (capped per event), not a fixed step per event, which used to fling past several books at once.
   const DRAG = 0.006, WHEEL = 0.0035, WHEEL_MAX = 0.12;
-  // touch: ~90px of finger per book, and a flick carries on as if the finger kept moving for FLICK_MS
-  const DRAG_TOUCH = 0.011, FLICK_MS = 260;
+  // touch: ~100px of finger per book, and a flick carries on as if the finger kept moving for FLICK_MS
+  const DRAG_TOUCH = 0.01, FLICK_MS = 140;
   root.addEventListener('wheel', e => {
     if (s.opened !== -1 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   // vertical wheel keeps scrolling the page
     e.preventDefault(); s.touch = false;
