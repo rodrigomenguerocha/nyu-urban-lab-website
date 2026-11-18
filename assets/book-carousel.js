@@ -153,7 +153,7 @@
              open: new Array(books.length).fill(0), raf: 0, visible: false, active: -1};
   const clamp = v => Math.max(0, Math.min(v, books.length - 1));
   const spineW = books.map(b => b.spineW), rotZs = books.map(b => b.rotZ);
-  const ease = () => (reduced.matches ? 1 : 0.08);
+  const ease = () => (reduced.matches ? 1 : 0.06);                 // glide: share of the remaining distance covered per frame
   const easeOpen = () => (reduced.matches ? 1 : 0.06);
 
   function frame() {
@@ -231,14 +231,19 @@
   window.addEventListener('pointermove', e => {
     if (!s.dragging) return;
     s.moved = Math.max(s.moved, Math.abs(e.clientX - s.startX));
-    if (s.moved > 6) { s.target = clamp(s.scrollStart + (e.clientX - s.startX) * -0.01); root.classList.add('is-dragging'); kick(); }
+    if (s.moved > 6) { s.target = clamp(s.scrollStart + (e.clientX - s.startX) * -DRAG); root.classList.add('is-dragging'); kick(); }
   });
   const endDrag = () => { s.dragging = false; root.classList.remove('is-dragging'); };
   window.addEventListener('pointerup', endDrag);
   window.addEventListener('pointercancel', endDrag);
+  // Speeds, in books per pixel. A trackpad swipe sends dozens of wheel events, so the wheel moves in proportion to how far
+  // the fingers travel (capped per event), not a fixed step per event, which used to fling past several books at once.
+  const DRAG = 0.006, WHEEL = 0.0035, WHEEL_MAX = 0.12;
   root.addEventListener('wheel', e => {
     if (s.opened !== -1 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   // vertical wheel keeps scrolling the page
-    e.preventDefault(); s.target = clamp(s.target + Math.sign(e.deltaX) * 0.25); kick();
+    e.preventDefault();
+    const px = e.deltaX * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);   // lines / pages -> pixels
+    s.target = clamp(s.target + Math.max(-WHEEL_MAX, Math.min(WHEEL_MAX, px * WHEEL))); kick();
   }, {passive: false});
   root.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') { e.preventDefault(); go(Math.round(s.target) + 1); }
