@@ -954,3 +954,11 @@
 /* hero slides that belong to one screen size only (see cinema.js) */
 @media(max-width:760px){#urbanlab-home .cinema-slide[data-only="desktop"]{display:none!important}}
 @media(min-width:761px){#urbanlab-home .cinema-slide[data-only="mobile"]{display:none!important}}
+
+/* 54. Phones: the hero runs to the very bottom of the screen and has no "Explore the research" link.
+   dvh follows the browser bars as they collapse while scrolling (svh alone leaves a strip of the next section showing);
+   browsers without dvh keep the svh rule above. */
+@media(max-width:760px){
+  #urbanlab-home .cinema-opening .cinema-stage{height:max(560px,100svh);height:max(560px,100dvh)}
+  #urbanlab-home .cinema-opening .cinema-cta{display:none}
+}
