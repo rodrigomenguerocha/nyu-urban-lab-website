@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"NYU Perstare";src:url("../../assets/NYUPerstare-VF.woff2") format("woff2");font-weight:100 900}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:#1a082b}
+/* Site look without a photo: deep purple (#25063d / #1a082b), white logo with the purple torch square, uppercase kicker, light headline. */
+.card{position:relative;width:1200px;height:630px;font-family:"NYU Perstare",system-ui,sans-serif;color:#fff;
+  background:radial-gradient(900px 520px at 88% 8%,rgba(120,60,175,.55),transparent 70%),radial-gradient(700px 420px at 0% 100%,rgba(88,36,131,.45),transparent 70%),linear-gradient(180deg,#25063d 0%,#1a082b 100%)}
+/* logo drawn at its native 757x146, then scaled */
+.logo{position:absolute;left:64px;top:52px;width:757px;height:146px;transform:scale(.56);transform-origin:0 0}
+.logo img{position:absolute;left:0;top:0;width:757px;height:146px}
+.logo .w{filter:brightness(0) invert(1);clip-path:path(evenodd,"M0 0H757V146H0Z M0 0H103V112H0Z")}
+.logo .sq{clip-path:inset(0 656px 34px 0);filter:url(#hole)}   /* square only: turned solid white, torch becomes transparent */
+.copy{position:absolute;left:64px;right:64px;bottom:64px}
+.kicker{font-size:19px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#d9c8ee;margin-bottom:26px}
+h1{font-size:98px;font-weight:400;letter-spacing:-.045em;line-height:1.03}
+.bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:#582483}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><filter id="hole" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 -1.25 0 0 1.25" result="w"/><feComposite in="w" in2="SourceAlpha" operator="in"/></filter></svg>
+<div class="card">
+  <div class="logo"><img class="w" src="../../assets/nyu-urban-lab-logo-tight-purple.png" alt=""><img class="sq" src="../../assets/nyu-urban-lab-logo-tight-purple.png" alt=""></div>
+  <div class="copy">
+    <p class="kicker">NYU School of Professional Studies</p>
+    <h1>Where real estate<br>meets social economics.</h1>
+  </div>
+  <div class="bar"></div>
+</div>
+</body></html>
