@@ -109,6 +109,29 @@ for f in pages:
     s = s.replace('<title>', tags + '<title>', 1)
     open(f, 'w', encoding='utf-8').write(s)
 
+# 3c. link preview (WhatsApp, iMessage, Slack, LinkedIn): Open Graph + Twitter tags with the share card assets/og-image.jpg (made by _build/og/render.sh).
+#     SITE_URL must be the absolute public address of the site root (with trailing slash); update it when the site moves to its own domain.
+#     Pages stay noindex: these tags only control how a shared link looks.
+SITE_URL = 'https://rodrigomenguerocha.github.io/nyu-urban-lab-website/'
+for f in pages:
+    s = open(f, encoding='utf-8').read()
+    s = re.sub(r'<meta[^>]*(?:property|name)="(?:og|twitter):[^"]*"[^>]*>', '', s)
+    t = re.search(r'<title>([^<]*)</title>', s)
+    d = re.search(r'<meta\s+(?:content="([^"]*)"\s+name="description"|name="description"\s+content="([^"]*)")', s)
+    if not t: continue
+    title = t.group(1).strip().replace('"', '&quot;')
+    desc = ((d.group(1) or d.group(2)) if d else 'Research and learning for better cities.').strip()
+    url = SITE_URL + ('' if f == 'index.html' else f)
+    img = SITE_URL + 'assets/og-image.jpg'
+    og = (f'<meta property="og:type" content="website"><meta property="og:site_name" content="NYU Urban Lab">'
+          f'<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}">'
+          f'<meta property="og:url" content="{url}"><meta property="og:image" content="{img}">'
+          f'<meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+          f'<meta property="og:image:alt" content="NYU Urban Lab. Where real estate meets social economics.">'
+          f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{img}">')
+    s = s.replace('<title>', og + '<title>', 1)
+    open(f, 'w', encoding='utf-8').write(s)
+
 # the search box and the shelf load their data lazily; keep their URLs hashed too
 for js in ['v2.js']:
     p = os.path.join('assets', js); t = open(p, encoding='utf-8').read()

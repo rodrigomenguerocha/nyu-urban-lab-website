@@ -11,7 +11,7 @@ The sibling folder `NYU Urban Lab Website` (without "v2") is the original site. 
 1. **Edit sources, then run the build.** Never hand-edit `assets/*.min.css`, `assets/*.min.js` or the header/footer inside a page. They are generated and will be overwritten.
 2. **Header and footer live in `_build/templates/header.html` and `footer.html`.** Change them there; the build writes them into all pages.
 3. **Do not invent copy.** Reuse the text already on the site. If new text is needed, ask the user. Text for outside readers should go through the OSPA tone rules before it is written.
-4. **Keep `noindex`.** Do not add sitemap, Open Graph or indexing tags unless asked.
+4. **Keep `noindex`.** Do not add a sitemap or indexing tags unless asked. Open Graph/Twitter link-preview tags ARE added by the build (step 3c, `SITE_URL` in `_build/build.py`; update it when the site gets its own domain). The share card is `assets/og-image.jpg`, made by `_build/og/render.sh`.
 5. **Do not touch other pages "while you are there".** Change what was asked. Layout changes must be checked on several pages, not one.
 6. **Reuse the tokens** (below). No new hard-coded widths, colours or font sizes when a variable exists.
 7. **Respect `prefers-reduced-motion`.** Every animation needs a still fallback.
