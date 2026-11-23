@@ -5,7 +5,7 @@
  const root=document.getElementById('urbanlab-home'),steps=[...root.querySelectorAll('[data-story]')],stops=[...root.querySelectorAll('.story-stops a')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width:700px)');
  const label=root.querySelector('.story-city-label');
- const names=['00 / FOUR AREAS','01 / HOUSING AFFORDABILITY','02 / NET ZERO CITIES','03 / PUBLIC PRIVATE DEVELOPMENT','04 / CULTURE-LED DEVELOPMENT'];
+ const names=['00 / FOUR AREAS','01 / CULTURE-LED DEVELOPMENT','02 / HOUSING AFFORDABILITY','03 / NET ZERO CITIES','04 / PUBLIC PRIVATE DEVELOPMENT'];
  let seed=1789;const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),smooth=t=>t*t*(3-2*t),lerp=(a,b,t)=>a+(b-a)*t;
  // Each scene is a distinct set of architectural surfaces in a common city coordinate system.
@@ -107,7 +107,7 @@
     box(tmp,hx,hz,22,18,13,0,.4);box(tmp,hx+4,hz+3,14,12,7,13,.6);
     tag(tmp,1,p=>{p[5]=ph;p[6]=r1()*6.28;});
    }
-   MH_LAB.push([c[0]+30,c[1]+30,'01  HOUSING AFFORDABILITY','l',44]);}
+   MH_LAB.push([c[0]+30,c[1]+30,'02  HOUSING AFFORDABILITY','l',44]);}
   // 2 / Net zero: Williamsburg, Brooklyn — a grove that sways, with wind passing over it
   {const c=mh(-73.9450,40.7140);
    for(let gx=0;gx<3;gx++)for(let gz=0;gz<2;gz++){
@@ -117,7 +117,7 @@
    for(let l=0;l<6;l++)for(let i=0;i<18;i++){
     const p=[0,56+l*6,0,1.1];tag([p],5,q=>{q[5]=i/18;q[6]=c[0]-44+(l%2)*12;q[7]=c[1]+24+l*6;});
    }
-   MH_LAB.push([c[0]-6,c[1]+78,'02  NET ZERO CITIES','l',8]);}
+   MH_LAB.push([c[0]-6,c[1]+78,'03  NET ZERO CITIES','l',8]);}
   // 3 / Public-private: Hudson Yards, a public hall, a private tower, and flows of exchange between them
   {const c=mh(-74.0020,40.7540),zw=zwS(c[0]);
    const hx=c[0]-40,hz=zwS(hx)+10,tx=c[0]+2,tz=zwS(tx)+8;
@@ -125,12 +125,12 @@
    {const tmp=[];box(tmp,tx,tz,18,18,62,0,1.1);tag(tmp,0);}
    MH_PPP.x1=hx+18;MH_PPP.z1=hz+10;MH_PPP.y1=18;MH_PPP.x2=tx+9;MH_PPP.z2=tz+9;MH_PPP.y2=40;
    for(let i=0;i<260;i++){const p=[MH_PPP.x1,MH_PPP.y1,MH_PPP.z1,1.3];tag([p],3,q=>{q[5]=r1();q[6]=i%2?1:-1;q[7]=(r1()-.5)*8;});}
-   MH_LAB.push([tx+8,tz-6,'03  PUBLIC PRIVATE DEVELOPMENT','l',100]);}
+   MH_LAB.push([tx+8,tz-6,'04  PUBLIC PRIVATE DEVELOPMENT','l',100]);}
   // 4 / Culture: Harlem, a pavilion whose waves spread over the neighbourhood
   {const c=mh(-73.9450,40.8100);MH_CUL.x=c[0];MH_CUL.z=c[1];
    {const tmp=[];for(let u=0;u<=18;u++)for(let v=0;v<=6;v++){const th=u/18*Math.PI*2,ph2=v/6*Math.PI/2;tmp.push([c[0]+Math.cos(th)*Math.cos(ph2)*12,Math.sin(ph2)*12,c[1]+Math.sin(th)*Math.cos(ph2)*12,1.5]);}tag(tmp,0);}
    for(let k=0;k<5;k++)for(let i=0;i<110;i++){const p=[c[0],0,c[1],1.2];tag([p],4,q=>{q[5]=k/5;q[6]=i/110*Math.PI*2+r1()*.05;});}
-   MH_LAB.push([c[0]+4,c[1]-4,'04  CULTURE-LED DEVELOPMENT','r',70]);}
+   MH_LAB.push([c[0]+4,c[1]-4,'01  CULTURE-LED DEVELOPMENT','r',70]);}
  }
  scenes.push(a);
  // 01: a neighborhood of homes, with legible streets and courtyards.
@@ -152,7 +152,8 @@
  for(let r=0;r<48;r+=5)for(let th=0;th<Math.PI*2;th+=.14)a.push([70+Math.cos(th)*r,61+(48-r)*.25,42+Math.sin(th)*r,1.2]);
  for(let x=-112;x<25;x+=30)tree(a,x,94,24);scenes.push(a);
  const count=6200;
- const targets=scenes.map(points=>{points.sort((p,q)=>p[2]-q[2]||p[0]-q[0]||p[1]-q[1]);return Array.from({length:count},(_,i)=>points[Math.floor(i*points.length/count)]);});
+ // scenes are drawn in the order housing, net zero, public-private, culture; the chapters run alphabetically (culture first)
+ const targets=[0,4,1,2,3].map(i=>scenes[i]).map(points=>{points.sort((p,q)=>p[2]-q[2]||p[0]-q[0]||p[1]-q[1]);return Array.from({length:count},(_,i)=>points[Math.floor(i*points.length/count)]);});
  const phases=Array.from({length:count},()=>random()*Math.PI*2);
  let paused=reduced.matches||document.documentElement.classList.contains('dbg-no-fx'),desired=0,position=0,raf=0,last=0,time=0,active=-1,visible=true,pointer=0,ptx=0,pty=0,ptrX=0,ptrY=0,tiltOn=false,mxT=-9999,myT=-9999,mx=-9999,my=-9999,inf=0,hovering=false;
  const contexts=new Map();
