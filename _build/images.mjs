@@ -12,7 +12,7 @@ const sharp = require('sharp');
 const A = f => path.join(process.cwd(), 'assets', f);
 const LOGO_W = 640;
 
-const HERO = ['culture', 'schack', 'speaker', 'keynote'];
+const HERO = ['culture', 'schack', 'speaker', 'keynote', 'lecture'];
 // [file, max width]: max width = about 2x the largest size the logo is shown at. (uli.png and micd.png are already small PNGs; WebP came out larger.)
 const LOGOS = [['quiescet-logo-purple.png', 800], ['quiescet-logo.png', LOGO_W], ['partners/un-sdg.png', 240], ['urban-progress-logo.png', LOGO_W],
   ['rudin-center-logo.png', LOGO_W], ['mcsilver-logo.png', LOGO_W], ['public-knowledge-logo.png', LOGO_W], ['marron-logo.png', LOGO_W],
